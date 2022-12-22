@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import SearchBar from './Searchbar/Searchbar';
-import { fetchImages } from 'services/ImagesAPI';
-import { ImageGallery } from './ImageGallery/ImageGallery';
+// import React, { Component } from 'react';
+// import SearchBar from './Searchbar/Searchbar';
+// import { fetchImages } from 'services/ImagesAPI';
+// import { ImageGallery } from './ImageGallery/ImageGallery';
 // import { imageMaper } from 'services/mapper';
 // import { Loader } from './Loading/Loading';
 // import { ToastContainer, toast } from 'react-toastify';
