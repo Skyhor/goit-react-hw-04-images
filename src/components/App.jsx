@@ -1,5 +1,5 @@
 // import React, { Component } from 'react';
-// import SearchBar from './Searchbar/Searchbar';
+import SearchBar from './Searchbar/Searchbar';
 // import { fetchImages } from 'services/ImagesAPI';
 // import { ImageGallery } from './ImageGallery/ImageGallery';
 // import { imageMaper } from 'services/mapper';
@@ -25,18 +25,18 @@
 //       this.getImage();
 //     }
 //   }
-//   handleSubmit = searchData => {
-//     if (searchData.trim() === '') {
-//       return toast.error('Enter the meaning for search');
-//     } else if (searchData === this.state.searchData) {
-//       return;
-//     }
-//     this.setState({
-//       searchData: searchData,
-//       page: 1,
-//       images: [],
-//     });
-//   };
+handleSubmit = searchData => {
+  if (searchData.trim() === '') {
+    return toast.error('Enter the meaning for search');
+  } else if (searchData === this.state.searchData) {
+    return;
+  }
+  this.setState({
+    searchData: searchData,
+    page: 1,
+    images: [],
+  });
+};
 
 //   getImage = () => {
 //     const { page, searchData, isShown } = this.state;
@@ -75,9 +75,10 @@
 //     // const { openModal, onSubmit } = this;
 //     const { images, isLoading, currentImage, isShown, totalHits } = this.state;
 //     return (
-//       <>
-//         <SearchBar onSubmit={this.handleSubmit} />
-//         <>
+<>
+  <SearchBar onSubmit={this.handleSubmit} />
+</>;
+//
 //           {isShown && (
 //             <ImageGallery
 //               images={images}
