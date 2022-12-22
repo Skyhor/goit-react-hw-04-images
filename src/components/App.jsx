@@ -1,7 +1,7 @@
-// import React, { Component } from 'react';
+import React, { Component } from 'react';
 import SearchBar from './Searchbar/Searchbar';
-// import { fetchImages } from 'services/ImagesAPI';
-// import { ImageGallery } from './ImageGallery/ImageGallery';
+import { fetchImages } from 'services/ImagesAPI';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 // import { imageMaper } from 'services/mapper';
 // import { Loader } from './Loading/Loading';
 // import { ToastContainer, toast } from 'react-toastify';
@@ -25,18 +25,18 @@ import SearchBar from './Searchbar/Searchbar';
 //       this.getImage();
 //     }
 //   }
-handleSubmit = searchData => {
-  if (searchData.trim() === '') {
-    return toast.error('Enter the meaning for search');
-  } else if (searchData === this.state.searchData) {
-    return;
-  }
-  this.setState({
-    searchData: searchData,
-    page: 1,
-    images: [],
-  });
-};
+// handleSubmit = searchData => {
+//   if (searchData.trim() === '') {
+//     return toast.error('Enter the meaning for search');
+//   } else if (searchData === this.state.searchData) {
+//     return;
+//   }
+//   this.setState({
+//     searchData: searchData,
+//     page: 1,
+//     images: [],
+//   });
+// };
 
 //   getImage = () => {
 //     const { page, searchData, isShown } = this.state;
@@ -75,9 +75,11 @@ handleSubmit = searchData => {
 //     // const { openModal, onSubmit } = this;
 //     const { images, isLoading, currentImage, isShown, totalHits } = this.state;
 //     return (
-<>
+{
+  /* <>
   <SearchBar onSubmit={this.handleSubmit} />
-</>;
+</>; */
+}
 //
 //           {isShown && (
 //             <ImageGallery
