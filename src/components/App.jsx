@@ -1,12 +1,34 @@
 import { Component } from 'react';
 import SearchBar from './Searchbar/Searchbar';
-// import { fetchImages } from 'services/ImagesAPI';
-// import { imageMaper } from 'services/mapper';
+import { fetchImages } from 'services/ImagesAPI';
+import { imageMaper } from 'services/mapper';
 export class App extends Component {
   state = {
     searchData: '',
     images: [],
     page: 0,
+  };
+  getImage = () => {
+    const { page, searchData, isShown } = this.state;
+    this.setState({ isLoading: true });
+    fetchImages(page, searchData, isShown)
+      .then(({ data: { totalHits, hits } }) => {
+        this.setState({ totalHits });
+        this.setState(prevState => ({
+          images: [...prevState.images, ...imageMaper(hits)],
+          isShown: true,
+        }));
+      })
+      .catch(error => {
+        this.setState({
+          error: error.message,
+        });
+      })
+      .finally(() =>
+        this.setState({
+          isLoading: false,
+        })
+      );
   };
   handleSubmit = searchData => {
     if (searchData.trim() === '') {
