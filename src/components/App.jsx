@@ -1,5 +1,5 @@
 import { Component } from 'react';
-
+import SearchBar from './Searchbar/Searchbar';
 export class App extends Component {
   state = {
     searchData: '',
@@ -8,6 +8,10 @@ export class App extends Component {
   };
 
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <SearchBar />
+      </div>
+    );
   }
 }
