@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SearchBar from './Searchbar/Searchbar';
+// import SearchBar from './Searchbar/Searchbar';
 export const App = () => {
   state = {
     searchData: '',
