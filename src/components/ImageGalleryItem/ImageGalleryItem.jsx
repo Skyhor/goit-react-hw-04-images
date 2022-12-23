@@ -1,7 +1,7 @@
 import style from './ImageGalleryItem.module.css';
 export function ImageGalleryItem({
   webformatURL,
-  index,
+
   openModal,
   largeImageURL,
 }) {

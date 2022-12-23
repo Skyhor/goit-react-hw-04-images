@@ -4,11 +4,16 @@ import { fetchImages } from 'services/ImagesAPI';
 import { imageMaper } from 'services/mapper';
 import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
 import { ImageGallery } from './ImageGallery/ImageGallery';
+import Modal from './Modal/Modal';
+import { ColorRing } from 'react-loader-spinner';
 export class App extends Component {
   state = {
     searchData: '',
     images: [],
     page: 0,
+    currentImage: null,
+    isShown: false,
+    isLoading: null,
   };
   getImage = () => {
     const { page, searchData, isShown } = this.state;
@@ -63,16 +68,24 @@ export class App extends Component {
   };
 
   render() {
-    const { images } = this.state;
+    const { images, currentImage, isShown, totalHits, isLoading } = this.state;
     return (
       <div>
         <SearchBar onSubmit={this.handleSubmit} />
-        <ImageGallery
-          images={images}
-          openModal={this.openMoadl}
-          closeModal={this.closeModal}
-        />
-        <LoadMoreBtn clickHandler={this.loadMore} />
+        {isShown && (
+          <ImageGallery
+            images={images}
+            openModal={this.openMoadl}
+            closeModal={this.closeModal}
+          />
+        )}
+        {isShown && images.length < totalHits && (
+          <LoadMoreBtn clickHandler={this.loadMore} />
+        )}
+        {isLoading && <ColorRing />}
+        {currentImage && (
+          <Modal image={currentImage} closeModal={this.closeModal} />
+        )}
       </div>
     );
   }
