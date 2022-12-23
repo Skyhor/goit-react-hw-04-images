@@ -18,9 +18,5 @@ export const App = () => {
       images: [],
     });
   };
-  return (
-    <div>
-      <SearchBar onSubmit={this.handleSubmit} />
-    </div>
-  );
+  return <div>{/* <SearchBar onSubmit={this.handleSubmit} /> */}</div>;
 };
