@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import SearchBar from './Searchbar/Searchbar';
-import { fetchImages } from 'services/ImagesAPI';
-import { imageMaper } from 'services/mapper';
+// import { fetchImages } from 'services/ImagesAPI';
+// import { imageMaper } from 'services/mapper';
 export class App extends Component {
   state = {
     searchData: '',
