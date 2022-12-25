@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import SearchBar from './Searchbar/Searchbar';
 import { fetchImages } from 'services/ImagesAPI';
-import { imageMaper } from 'services/mapper';
+// import { imageMaper } from 'services/mapper';
 import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import Modal from './Modal/Modal';
@@ -22,7 +22,7 @@ export class App extends Component {
       .then(({ data: { totalHits, hits } }) => {
         this.setState({ totalHits });
         this.setState(prevState => ({
-          images: [...prevState.images, ...imageMaper(hits)],
+          images: [...prevState.images, ...hits],
           isShown: true,
         }));
       })
