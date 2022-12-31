@@ -1,41 +1,35 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import s from './Modal.module.css';
-class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.closeByEsc);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.closeByEsc);
-  }
-  closeByEsc = ({ code }) => {
-    if (code === 'Escape') {
-      this.props.closeModal();
-    }
-  };
-  closeByBackdrop = e => {
+const Modal = ({ image: { src }, closeModal }) => {
+  useEffect(() => {
+    const closeByEsc = ({ code }) => {
+      if (code === 'Escape') {
+        closeModal();
+      }
+      window.addEventListener('keydown', this.closeByEsc);
+    };
+    return () => {
+      window.removeEventListener('keydown', closeByEsc);
+    };
+  }, [closeModal]);
+  const closeByBackdrop = e => {
     if (e.target === e.currentTarget) {
-      this.props.closeModal();
+      closeModal();
     }
   };
-  render() {
-    const {
-      image: { src },
-      closeModal,
-    } = this.props;
-    return (
-      <div className={s.backdrop} onClick={this.closeByBackdrop}>
-        <div className={s.imageModal}>
-          <button
-            type="button"
-            className={s.CloseBtn}
-            onClick={() => closeModal()}
-          >
-            X
-          </button>
-          <img src={src} alt="" />
-        </div>
+  return (
+    <div className={s.backdrop} onClick={closeByBackdrop}>
+      <div className={s.imageModal}>
+        <button
+          type="button"
+          className={s.CloseBtn}
+          onClick={() => closeModal()}
+        >
+          X
+        </button>
+        <img src={src} alt="" />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 export default Modal;

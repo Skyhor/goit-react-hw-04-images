@@ -1,39 +1,35 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import s from './SearchBar.module.css';
-export default class SearchBar extends Component {
-  state = {
-    query: '',
-  };
-  search = e => {
+const SearchBar = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
+  const search = e => {
     e.preventDefault();
-    if (this.state.query.trim() === '') {
+    if (query.trim() === '') {
       return alert('Для поиска недостаточно символов');
     }
-    this.props.onSubmit(this.state.query);
-    this.setState({ query: '' });
+    onSubmit(query);
+    setQuery('');
   };
-  changeName = e => {
-    this.setState({ query: e.currentTarget.value.toLowerCase() });
+  const changeName = e => {
+    setQuery(e.currentTarget.value.toLowerCase());
   };
-  render() {
-    return (
-      <header className={s.Searchbar}>
-        <form onSubmit={this.search} className={s.form}>
-          <button type="submit" className={s.SearchFormButton}>
-            <span>Search</span>
-          </button>
-
-          <input
-            className={s.SearchFormInput}
-            onChange={this.changeName}
-            type="text"
-            value={this.state.query}
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </form>
-      </header>
-    );
-  }
-}
+  return (
+    <header className={s.Searchbar}>
+      <form onSubmit={search} className={s.form}>
+        <button type="submit" className={s.SearchFormButton}>
+          <span>Search</span>
+        </button>
+        <input
+          className={s.SearchFormInput}
+          onChange={changeName}
+          type="text"
+          value={query}
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </form>
+    </header>
+  );
+};
+export default SearchBar;

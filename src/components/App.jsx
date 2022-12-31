@@ -1,92 +1,65 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from './Searchbar/Searchbar';
 import { fetchImages } from 'services/ImagesAPI';
-// import { imageMaper } from 'services/mapper';
 import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import Modal from './Modal/Modal';
 import { ColorRing } from 'react-loader-spinner';
-export class App extends Component {
-  state = {
-    searchData: '',
-    images: [],
-    page: 0,
-    currentImage: null,
-    isShown: false,
-    isLoading: null,
-  };
-  getImage = () => {
-    const { page, searchData, isShown } = this.state;
-    this.setState({ isLoading: true });
-    fetchImages(page, searchData, isShown)
-      .then(({ data: { totalHits, hits } }) => {
-        this.setState({ totalHits });
-        this.setState(prevState => ({
-          images: [...prevState.images, ...hits],
-          isShown: true,
-        }));
-      })
-      .catch(error => {
-        this.setState({
-          error: error.message,
-        });
-      })
-      .finally(() =>
-        this.setState({
-          isLoading: false,
+export const App = () => {
+  const [searchData, setSearchData] = useState('');
+  const [images, setImages] = useState([]);
+  const [page, setPage] = useState(0);
+  const [currentImage, setCurrentImage] = useState(null);
+  const [isShown, setIsShown] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
+  const [, setError] = useState('');
+  useEffect(() => {
+    if (searchData) {
+      setIsLoading(true);
+      fetchImages(page, searchData)
+        .then(({ data: { hits } }) => {
+          setImages(state => [...state, ...hits]);
+          setIsShown(true);
         })
-      );
-  };
-  componentDidUpdate(_, prevState) {
-    const { searchData, page } = this.state;
-    if (searchData !== prevState.searchData || page !== prevState.page) {
-      this.getImage();
+        .catch(error => {
+          setError(error.message);
+        })
+        .finally(() => setIsLoading(false));
     }
-  }
-  handleSubmit = searchData => {
-    if (searchData.trim() === '') {
+  }, [searchData, page]);
+  const handleSubmit = newSearchData => {
+    if (newSearchData.trim() === '') {
       return console.log('Enter the meaning for search');
-    } else if (searchData === this.state.searchData) {
+    } else if (newSearchData === searchData) {
       return;
     }
-    this.setState({
-      searchData: searchData,
-      page: 1,
-      images: [],
-    });
+    setSearchData(newSearchData);
+    setPage(1);
+    setImages([]);
   };
-  openMoadl = data => {
-    this.setState({ currentImage: data });
+  const openMoadl = data => {
+    setCurrentImage(data);
   };
-  closeModal = () => {
-    this.setState({ currentImage: null });
+  const closeModal = () => {
+    setCurrentImage(null);
   };
-  loadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
+  const loadMore = () => {
+    setPage(state => state + 1);
   };
 
-  render() {
-    const { images, currentImage, isShown, totalHits, isLoading } = this.state;
-    return (
-      <div>
-        <SearchBar onSubmit={this.handleSubmit} />
-        {isShown && (
-          <ImageGallery
-            images={images}
-            openModal={this.openMoadl}
-            closeModal={this.closeModal}
-          />
-        )}
-        {isShown && images.length < totalHits && (
-          <LoadMoreBtn clickHandler={this.loadMore} />
-        )}
-        {isLoading && <ColorRing />}
-        {currentImage && (
-          <Modal image={currentImage} closeModal={this.closeModal} />
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <SearchBar onSubmit={handleSubmit} />
+      {isShown && (
+        <ImageGallery
+          images={images}
+          openModal={openMoadl}
+          closeModal={closeModal}
+        />
+      )}
+      {isLoading && <ColorRing />}
+      {currentImage && <Modal image={currentImage} closeModal={closeModal} />}
+      {isShown && <LoadMoreBtn clickHandler={loadMore} />}
+    </div>
+  );
+};
