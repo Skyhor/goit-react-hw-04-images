@@ -10,16 +10,18 @@ export const App = () => {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(0);
   const [currentImage, setCurrentImage] = useState(null);
-  const [isShown, setIsShown] = useState(false);
+  // const [isShown, setIsShown] = useState(false);
   const [isLoading, setIsLoading] = useState(null);
   const [, setError] = useState('');
+  const [totalHits, setTotalHits] = useState(null);
   useEffect(() => {
     if (searchData) {
       setIsLoading(true);
       fetchImages(page, searchData)
-        .then(({ data: { hits } }) => {
+        .then(({ data: { totalHits, hits } }) => {
           setImages(state => [...state, ...hits]);
-          setIsShown(true);
+          // setIsShown(true);
+          setTotalHits(totalHits);
         })
         .catch(error => {
           setError(error.message);
@@ -50,16 +52,16 @@ export const App = () => {
   return (
     <div>
       <SearchBar onSubmit={handleSubmit} />
-      {isShown && (
-        <ImageGallery
-          images={images}
-          openModal={openMoadl}
-          closeModal={closeModal}
-        />
-      )}
+      <ImageGallery
+        images={images}
+        openModal={openMoadl}
+        closeModal={closeModal}
+      />
       {isLoading && <ColorRing />}
       {currentImage && <Modal image={currentImage} closeModal={closeModal} />}
-      {isShown && <LoadMoreBtn clickHandler={loadMore} />}
+      {!isLoading && images.length < totalHits && (
+        <LoadMoreBtn clickHandler={loadMore} />
+      )}
     </div>
   );
 };
