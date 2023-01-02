@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import s from './Modal.module.css';
 const Modal = ({ image: { src }, closeModal }) => {
   useEffect(() => {
-    const closeByEsc = ({ code }) => {
-      if (code === 'Escape') {
+    const closeByEsc = e => {
+      if (e.code === 'Escape') {
         closeModal();
       }
-      window.addEventListener('keydown', this.closeByEsc);
     };
+    window.addEventListener('keydown', closeByEsc);
     return () => {
       window.removeEventListener('keydown', closeByEsc);
     };
